@@ -11,6 +11,7 @@
 **已创建内容：**
 - [[tech-trends/2026-april-agent-report|2026 年 4 月 Agent 前沿报告]] - 四月关键动态汇总
 - [[tech-trends/agent-architecture-mcp-memory|Agent 架构：记忆、工具与 MCP]] - 技术架构深度解析
+- [[tech-trends/harness-engineering|Harness Engineering（驾驭工程）]] - 2026 年最重要的 Agent 范式转变
 
 ### 2. open-source/ - 开源项目追踪
 

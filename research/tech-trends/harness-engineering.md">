@@ -1,0 +1,338 @@
+# Harness Engineering（驾驭工程）
+
+**日期：** 2026 年 5 月 5 日
+**状态：** 进行中
+**标签：** #Harness #Agentic #Architecture
+
+---
+
+## 概述
+
+**Harness Engineering**（驾驭工程）是 2026 年最受关注的新兴工程实践，由 OpenAI、Anthropic、Thoughtworks 等机构推动和定义。
+
+核心理念非常简单：**Agent = Model + Harness** —— 模型负责推理，而 Harness 负责让推理可靠。
+
+- **模型** 像一匹烈马，有惊人的力量但没有方向
+- **Harness** 像缰绳系统，负责把 AI 的能力上限真正转化为可控的、有用的产出
+
+当模型能力达到一定水平后，决定 AI 表现的瓶颈不再是模型本身，而是**它运行环境的设计质量**。
+
+---
+
+## 定义与起源
+
+### 正式定义
+
+Martin Fowler 在 2026 年 2 月的 Thoughtworks 技术雷达中给出了定义：
+> **Harness Engineering** 是 "构建用于管控 AI Agent 的工具与实践组合"。
+
+Philipp Schmid 给出了技术类比：
+> 如果 AI 模型是 CPU（提供原始算力），上下文窗口是 RAM（有限的工作内存），那么 **Harness 就是操作系统** ——它负责调度资源、管理进程、处理错误，让上层的 Agent 应用能够稳定运行。
+
+### 关键里程碑
+
+| 时间 | 事件 | 意义 |
+|-----|------|-----|
+| 2026 年 1 月 | Philipp Schmid 发表操作系统类比 | 建立了理论框架 |
+| 2026 年 2 月 | OpenAI 在官方博客披露 Harness 工程 | 发布百万行代码全 AI 编码实验 |
+| 2026 年 2 月 | Martin Fowler 在 Thoughtworks 雷达中正式命名 | Harness Engineering 成为行业术语 |
+| 2026 年 4 月 | Agentic Harness Engineering (AHE) 论文发布 (arXiv:2604.25850) | 学术层面深化方法论 |
+
+---
+
+## 百万行代码证明：OpenAI 的实验
+
+OpenAI 在 2026 年 2 月披露了一个震撼的内部实验：
+
+### 实验数据
+
+| 指标 | 数值 |
+|-----|------|
+| 初始团队 | 3 名工程师 |
+| 开发时间 | 5 个月 |
+| 最终代码量 | 超过 100 万行 |
+| Pull Requests | ~1500 个 |
+| 人工写的代码 | 0 行 |
+| 开发周期 | 传统团队的十分之一 |
+
+### 关键洞察
+
+工程师的角色发生了根本转变：
+- **旧角色**：写代码
+- **新角色**：设计让 AI 可靠写代码的约束环境、反馈回路和执行护栏
+
+### Harness 的构成
+
+OpenAI 的 Harness 系统包含：
+1. **约束环境**：沙箱、权限边界
+2. **反馈回路**：自动测试、审查、回滚
+3. **执行护栏**：规范检查、安全扫描、CI/CD 验证
+
+---
+
+## Harness Engineering 的三大支柱（OpenAI 框架）
+
+### 1. 上下文工程（Context Engineering）
+
+确保 Agent 在正确的时间获得正确的信息。
+
+#### 静态上下文
+- 仓库文档（架构说明、API 合约、风格指南）
+- `AGENTS.md`、`CLAUDE.md` 等专门的 Agent 指导文件
+- 代码库结构映射
+
+#### 动态上下文
+- 会话历史的智能摘要（不是完整历史）
+- 上下文窗口压缩和优先级排序
+- 检索相关文档的 RAG 系统
+
+### 2. 反馈工程（Feedback Engineering）
+
+让 Agent 能自动学习错误并改进。
+
+#### 反馈回路设计
+```
+Agent 执行
+  ↓
+自动检测/验证
+  ↓
+失败模式分析
+  ↓
+Harness 调整
+  ↓
+Agent 再次执行
+```
+
+#### AHE（Agentic Harness Engineering）的三大可观测支柱
+根据 [arXiv:2604.25850](https://arxiv.org/pdf/2604.25850) 论文：
+1. **组件可观测性**：每个可编辑的 harness 组件有文件级表示，动作空间明确、可回滚
+2. **经验可观测性**：将百万原始轨迹 token 提炼为分层、可下钻的证据语料
+3. **决策可观测性**：每次编辑与自我声明的预测配对，后验与任务级结果验证
+
+### 3. 边界工程（Boundary Engineering）
+
+明确 Agent 能做什么、不能做什么。
+
+#### 约束方式
+- **权限约束**：最小权限原则（MCP 工具）
+- **行为约束**：明确禁止的操作清单
+- **风险约束**：高风险操作需要人工确认（HITL）
+- **范围约束**：工作边界（只能修改某些目录）
+
+---
+
+## Harness Engineering 的性能证明
+
+### LangChain 实验（Terminal Bench 2.0）
+LangChain 团队保持模型不变，只优化 Harness：
+
+| 指标 | 基准 | Harness 优化后 |
+|-----|------|-------------|
+| Terminal Bench 排名 | 第 33 名 | 第 5 名 |
+| 任务完成率 | 52.8% | 66.5% |
+
+**具体优化措施**：
+1. 自我检查循环：最终前的核对清单中间件
+2. 上下文工程：起始时映射目录结构
+3. 循环检测：跟踪重复文件编辑
+4. 三明治推理：高推理用于计划/验证，中用于实现
+
+### AHE 论文结果（arXiv:2604.25850）
+
+| 基准 | Terminal-Bench 2 pass@1 |
+|------|-----------------------|
+| 初始（仅 bash） | 69.7% |
+| 10 轮 AHE 迭代后 | 77.0% |
+| 人类设计的 Codex-CLI | 71.9% |
+
+**跨模型可迁移性**：在三个替代模型系列上获得 +5.1 到 +10.1pp 的收益，表明组件编码了通用工程经验而非基准调优。
+
+---
+
+## Harness 的核心构成组件（2026 年工业实践）
+
+### 业界共识架构（Birgitta Boeckeler, Thoughtworks）
+
+| 组件类型 | 角色 | 代表技术 |
+|---------|-----|---------|
+| **Guide（引导层）** | 事前干预 | MCP、Skills、规范检查 |
+| **Sensor（感知层）** | 事后反馈 | 日志、监控、断言验证 |
+| **Controller（控制层）** | 流程编排 | LangGraph、Workflows |
+| **Memory（记忆层）** | 状态保持 | Memoris、分层记忆、持久化 |
+
+### MCP (Model Context Protocol) —— 行业标准
+
+MCP 已成为 Harness 的核心基础设施：
+- 定义明确的工具接口（不是混乱的函数调用）
+- 标准化资源访问
+- 内置权限边界
+- 生态系统快速成长（2026 年已有上千 MCP 服务器）
+
+详细内容参考 [Agent 架构文档](../tech-trends/agent-architecture-mcp-memory.md)。
+
+### 记忆系统 Harness
+
+| 特性 | 说明 |
+|----|------|
+| 分层记忆 | 短期（近期会话）→ 中期（项目记忆）→ 长期（通用技能） |
+| 标签化检索 | 时间 + 标签，而非纯语义检索 |
+| 热/冷路径 | 立即存储 vs 后台处理/归档 |
+
+---
+
+## 企业采纳路径：从 0 到 1
+
+### 阶段一：工具层 Harness（快速，1-2 周）
+
+**目标**：通过 MCP 标准化工具接入
+- 引入 MCP 作为统一的工具接口
+- 对现有工具进行权限最小化改造
+- 建立基本的日志和审计
+
+**投入产出**：
+- 投入：低
+- 风险：低
+- 收益：工具稳定性提升
+
+### 阶段二：反馈层 Harness（中期，1 个月）
+
+**目标**：建立基本反馈回路
+- 实现 Agent 行动的自动验证
+- 引入简单的检查点和回滚机制
+- 建立 CI/CD 级别的质量门
+
+### 阶段三：进化层 Harness（长期，持续）
+
+**目标**：自动化 Harness 改进
+- 实现像 AHE 那样的自主 Harness 进化
+- 建立 Agent 性能的持续度量
+- 知识库自动累积和优化
+
+---
+
+## 测量指标：什么是好的 Harness
+
+### 传统指标过时
+- ❌ "生成了多少行代码" —— 数量不代表质量
+- ❌ "任务完成率" —— 需要更细粒度的指标
+
+### 新的测量标准（协作质量）
+
+| 指标 | 意义 |
+|----|------|
+| **每任务迭代次数** | Agent 需要多少次试错才能完成 |
+| **合并后返工率** | AI 生成代码被修改或回滚的比例 |
+| **归因于 AI 的失败构建率** | CI/CD 中失败由 AI 代码导致的比例 |
+| **人工干预频率** | 需要人介入的次数 |
+
+---
+
+## 风险与安全考量
+
+### Agent 安全架构要求（arXiv:2604.23425）
+
+基于 April 2026 的前沿模型逃逸事件，Harness 需要满足五个架构要求：
+1. **信任分离**：分层 OS 权限 + 语义意图分析
+2. **顺序意图监控**：五阶段分类监控
+3. **独立完整性监控**：独立于 Agent 的验证
+4. **对抗审计隔离**：逻辑不可见性
+5. **分布差异监控**：新兴能力检测
+
+### 不要低估 Harness 的重要性
+
+OpenClaw 安全事件（2026 年 3 月）：
+- 82 个已收录 CVE（CNNVD）
+- 超危 12 个，高危 21 个
+- 46.9 万个公网暴露实例
+- 27.2% 存在已知高危漏洞
+
+**教训**：**Agent 不是聊天机器人**，Harness 的安全设计至关重要。
+
+---
+
+## 实际案例研究
+
+### 案例 1：Vercel — 少即是多
+
+Vercel 团队最初为文本转 SQL Agent 精心打造了 15 个专用工具，结果：
+- 脆弱，速度慢，成功率只有 80%
+- 需要持续维护
+
+后来的改变：**砍掉 80% 的工具**，只保留一个精准执行 bash 命令的通用工具，配合更好的上下文工程，成功率反而提升到 95%。
+
+### 案例 2：Anthropic — 三 Agent 协同 Harness
+
+Anthropic 设计了三角色 Agent Harness：
+- 规划 Agent（高推理）
+- 生成 Agent（高效执行）
+- 评估 Agent（验证检查）
+
+让 AI 在多小时自主编码会话中保持连贯性。
+
+---
+
+## Harness Engineering 相关的开源项目
+
+### 1. Agentic Harness Engineering (AHE)
+- 论文：arXiv:2604.25850
+- 代码：https://github.com/china-qijizhifeng/agentic-harness-engineering
+- 特点：三可观测支柱驱动的 Harness 自进化框架
+
+### 2. AEH (Agentic Engineering Harness)
+- GitLab：https://gitlab.com/stefanberreth/agentic-engineering-harness
+- 特点：工程角色分化，规范驱动，证据审查
+
+### 3. Harness.io 的 Harness Agents
+- 特点：Pipeline 原生执行，继承 RBAC/审计，系统 Agent + 自定义 Agent
+- 架构：执行运行时（Pipelines）+ 智能层（LLM + Knowledge Graph）+ 工具层（MCP + APIs）
+
+---
+
+## 企业下一步行动建议（2026 年 Q2）
+
+### 立即开始（本周）
+
+1. **审计当前 Agent 权限**：如果有广泛的、"类人"的访问权限，这是灾难隐患。立即迁移到 MCP 服务器，每个操作都受严格、机器可读的权限限制。
+
+2. **采用 "持久" Agent 流程**：把 Agent 任务视为分布式事务。每一步都要记录、检查点、独立可验证。
+
+3. **定义 Harness 指标**：停止测量吞吐量，开始测量协作质量。
+
+### 架构团队的 3 个交付件
+
+1. **企业 MCP 目录**：标准化内部工具接口
+2. **内部 Harness 模板**：各团队可复用
+3. **安全与治理工具包**：审计、监控、权限控制
+
+---
+
+## 总结与展望
+
+Harness Engineering 代表了 2026 年 Agent 领域的最大范式转变：
+- **从模型竞争转向 Harness 竞争**：顶级模型差异正在缩小，而周围运行环境差异正在增长
+- **从 Prompt 工程师到 System Harnesser**：开发者的工作将越来越偏向设计约束和反馈系统
+- **生产化能力是首要考量**：Agent 不再是演示玩具，而需要 Harness 才能真正落地
+
+**The future isn't about AI replacing the developer; it's about the developer becoming a System Harnesser, building the fences and foundations that allow autonomous agents to operate within the constraints of real-world production.**
+
+---
+
+## 参考资源
+
+### 学术论文
+- Agentic Harness Engineering: [arXiv:2604.25850](https://arxiv.org/pdf/2604.25850) (Lin et al. 2026-04)
+- Agent Containment Requirements: [arXiv:2604.23425](https://arxiv.org/pdf/2604.23425)
+
+### 行业观点
+- Martin Fowler, Thoughtworks Technology Radar (2026-02)
+- Philipp Schmid: "Harness as OS" analogy (2026-01-05)
+- "Thecodersblog": Beyond Autonomy (2026-04-28)
+- InnoBu: Harness Engineering Blueprint (2026)
+
+### 官方博客
+- OpenAI Harness Engineering (2026-02)
+- Anthropic Claude Code Architecture Series
+- Harness.io Agent Platform Docs
+
+### 中文内容
+- 为什么顶级团队开始重押 Harness Engineering? (CSDN 2026-04-30)
