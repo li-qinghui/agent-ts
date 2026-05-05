@@ -25,6 +25,7 @@ applications/
 
 公司内部应用场景分析，包括：
 
+- [[internal/enterprise-adoption-guide|Agent 企业内部快速落地指南]] - 完整的落地路线图
 - [[internal/workflow-automation|工作流自动化]] - Agent 在业务流程中的应用
 - [[internal/document-processing|文档处理]] - 文档生成、总结、翻译等
 - [[internal/customer-service|智能客服]] - 客服场景 Agent 应用
